@@ -130,11 +130,11 @@ long LinuxParser::ActiveJiffies(int pid) {
 // TODO: Read and return the number of active jiffies for the system
 long LinuxParser::ActiveJiffies() { 
   std::vector<std::string> numbers = CpuUtilization(); 
-  long total_jiffies = 0;
+  long active_jiffies = 0;
   for(string i : numbers){
-    total_jiffies += std::stol(i);
+    active_jiffies += std::stol(numbers[1]) + std::stol(numbers[2]) + std::stol(numbers[3]);
   }
-  return total_jiffies;
+  return active_jiffies;
 }
 
 // TODO: Read and return the number of idle jiffies for the system
@@ -145,7 +145,6 @@ long LinuxParser::IdleJiffies() {
 }
 
 // TODO: Read and return CPU utilization
-
 vector<string> LinuxParser::CpuUtilization() { 
   string firstline, num;
   vector<string> numbers{};
@@ -204,13 +203,13 @@ vector<int> LinuxParser::CpuUtilization(int pid){
 
 // TODO: Read and return the total number of processes
 int LinuxParser::TotalProcesses() { 
-  int proNum = readfileWithKey<int>(tarProcesses, kStatusFilename);
+  int proNum = readfileWithKey<int>(tarProcesses, kStatFilename);
   return proNum;
  }
 
 // TODO: Read and return the number of running processes
 int LinuxParser::RunningProcesses() { 
-  int proRunningNum = readfileWithKey<int>(tarProcessRunning, kStatusFilename);
+  int proRunningNum = readfileWithKey<int>(tarProcessRunning, kStatFilename);
   return proRunningNum;
  }
 
