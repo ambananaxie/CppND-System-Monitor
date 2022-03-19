@@ -131,8 +131,8 @@ long LinuxParser::ActiveJiffies(int pid) {
 long LinuxParser::ActiveJiffies() { 
   std::vector<std::string> numbers = CpuUtilization(); 
   long active_jiffies = 0;
-  for(string i : numbers){
-    active_jiffies += std::stol(numbers[1]) + std::stol(numbers[2]) + std::stol(numbers[3]);
+  for(string num : numbers){
+    active_jiffies += std::stol(num);
   }
   return active_jiffies;
 }
@@ -215,12 +215,12 @@ int LinuxParser::RunningProcesses() {
 
 // TODO: Read and return the command associated with a process
 string LinuxParser::Command(int pid) { 
-  string processCommand;
-  std::ifstream stream(kProcDirectory+std::to_string(pid)+kCmdlineFilename);
-  if(stream.is_open()){
-    std::getline(stream, processCommand);
-  }
-  return processCommand;
+  //string processCommand;
+  //std::ifstream stream(kProcDirectory+std::to_string(pid)+kCmdlineFilename);
+  //if(stream.is_open()){
+    //std::getline(stream, processCommand);
+  //}
+  return readFile<std::string>(std::to_string(pid)+kCmdlineFilename);
  }
 
 // TODO: Read and return the memory used by a process
